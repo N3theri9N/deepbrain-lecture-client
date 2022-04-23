@@ -14,7 +14,26 @@ export interface UserType{ // 여긴 db에서 받은 것임을 가정한다.
     birth: string;
     address: string;
 }
-export const postUser = async (payload:  // payload 얻어야할 데이터 async 는 비동기호출
+
+export const loginApi = async (payload : {
+    userid: string,
+    password: string
+}) => {
+    try {
+        alert("진행 4 : API 진입.."+ JSON.stringify(payload));
+        const response: AxiosResponse<unknown, UserType[]> = await axios.post(
+            `${SERVER}/user/login`, payload, {headers}
+        );
+        const loginUser = JSON.stringify(response.data);
+        localStorage.setItem("loginUser", loginUser);
+        alert("진행 6 : 응답 성공" + loginUser);
+        return response.data
+    } catch (err) {
+        return err;
+    }
+}
+
+export const joinApi = async (payload:  // payload 얻어야할 데이터 async 는 비동기호출
     {
         userid:string,
         password:string,
@@ -25,10 +44,8 @@ export const postUser = async (payload:  // payload 얻어야할 데이터 async
         address:string
     }) => {
          try{
-
             const response : AxiosResponse<unknown, UserType[]> =
-                await axios.post(`${SERVER}/api/user/signup`,payload, {headers}) // await 답이오면 할당.
-            alert('진행 5 : 응답성공 '+JSON.stringify(response.data))
+                await axios.post(`${SERVER}/user/join`,payload, {headers}) // await 답이오면 할당.
             return response.data
          }catch(err){
             return err;

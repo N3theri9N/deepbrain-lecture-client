@@ -9,7 +9,7 @@ export default function Bmi(){
     // 이번엔 기존의 name, setName 이 없어져있고 최종 입력값만 남겨져있다.
     const handleSubmit = e => {
         e.preventDefault(); // 이걸 잡지 않으면 리액트로 움직이지 않고 html 의 행동이 우선된다.
-        axios.post(proxy+'/api/basic/bmi', inputs).then(res => { // api/basic/bmi 에 데이터 전달.
+        axios.post(proxy+'/basic/bmi', inputs).then(res => { // api/basic/bmi 에 데이터 전달.
             const bmi = res.data
             document.getElementById('result-span').innerHTML = `
                 <h3>이름 : ${bmi.name}</h3>
@@ -20,8 +20,6 @@ export default function Bmi(){
         }).catch(err => alert(err))
         //then 은 정상완료 콜백, catch 는 오류발생 콜백
 
-        // 그런데 cors는 ??
-        //
     }
 
     const handleChange = e => {

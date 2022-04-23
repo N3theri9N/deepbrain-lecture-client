@@ -28,9 +28,7 @@ const userSlice = createSlice({
     initialState,
     reducers: { // 스위치 케이스로 구성된거나 마찬가지다. 이중 하나를 실행하도록 선언함.
         joinRequest(state: UserState, payload){ // 아직 reducer 로 전환되지 않음.(함수가 아닌 상태)
-            alert('진행 2: 리듀서 내부 ') 
             // 액션 실행시 넣는 payload 로 api 호출
-
             state.loading = true;
         },
         joinSuccess(state: UserState, {payload}){ // joinsuccess 이후 다음 state
@@ -39,6 +37,20 @@ const userSlice = createSlice({
             
         },
         joinFailure(state: UserState, {payload}){ // joinfailure 이후 다음 state
+            state.data = payload;
+            state.loading = false;
+        },
+        loginRequest(state: UserState, payload){
+            alert('진행 2: 리듀서 내부 ')
+            // 액션 실행시 넣는 payload 로 api 호출
+            state.loading = true;
+        },
+        loginSuccess(state: UserState, {payload}){
+            state.data = [...state.data, payload]
+            state.loading = false;
+
+        },
+        loginFailure(state: UserState, {payload}){
             state.data = payload;
             state.loading = false;
         }
