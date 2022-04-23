@@ -26,10 +26,12 @@ const initialState: UserState = { // 유저 state 첫 상태
 const userSlice = createSlice({
     name: 'users',
     initialState,
-    reducers: {
+    reducers: { // 스위치 케이스로 구성된거나 마찬가지다. 이중 하나를 실행하도록 선언함.
         joinRequest(state: UserState, payload){ // 아직 reducer 로 전환되지 않음.(함수가 아닌 상태)
             alert('진행 2: 리듀서 내부 ') 
-            state.loading = true; 
+            // 액션 실행시 넣는 payload 로 api 호출
+
+            state.loading = true;
         },
         joinSuccess(state: UserState, {payload}){ // joinsuccess 이후 다음 state
             state.data = [...state.data, payload]
@@ -42,6 +44,7 @@ const userSlice = createSlice({
         }
     }
 })
-const { reducer, actions } = userSlice
-export const userActions = actions
-export default reducer
+const { reducer, actions } = userSlice // 아래의 reducer 로 버블링
+export const userActions = actions // 이 action 은 redux saga 로 올라감.
+//index.ts 에 들어간 내용이 상시 실행된다.
+export default reducer // 이 reducer 는 루트로 올라간다.

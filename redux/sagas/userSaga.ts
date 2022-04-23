@@ -1,3 +1,4 @@
+// userSaga 에서는 index 를 계속 바라본다.
 import { PayloadAction } from '@reduxjs/toolkit'
 import { call, delay, put, takeLatest } from 'redux-saga/effects'
 import { userActions } from '../reducers/userReducer.ts';
@@ -13,6 +14,14 @@ interface UserJoinType{ // 액션객체, 스키마
         phone:string,
         birth:string,
         address:string
+    }
+}
+
+interface UserLoginType{
+    type: string;
+    payload: {
+        userid:string,
+        password:string
     }
 }
 
@@ -36,8 +45,23 @@ function* join(user: UserJoinType){ // * generator 함수 : 함수를 생산하�
          yield put(userActions.joinFailure(error))
     }
 }
+
+
+function* login(user: UserLoginType){ // TS 의 특징 : "변수명 : 타입" 인데 타입이 VO 처럼 작동한다.
+    try{
+        alert(' 진행 3: saga내부 join 성공  '+ JSON.stringify(user))
+        const response : UserJoinSuccessType = yield postUser(user.payload)
+        yield put(userActions.joinSuccess(response))
+        //yield 가 없다면 함수 호출, 말그대로 양보한다.
+        // userActions.joinSuccess 액션이 일어날 때 모니터링을 중단한다.
+        // 반대로 다른 때는 즉 모니터링할땐 yield 하지 않는다.
+    }catch(error){
+        alert('진행 3: saga내부 join 실패  ')
+        yield put(userActions.joinFailure(error))
+    }
+}
 export function* watchJoin(){ // join 이란 이벤트만 watch 하는 함수.
-    yield takeLatest(userActions.joinRequest, join)
+    yield takeLatest(userActions.joinRequest, join) // joinRequest 가 들어왔을때 join 함수를 전달.
 }
 
 // generate 함수는 실체가 없는 함수이다.
