@@ -2,7 +2,7 @@
 import { PayloadAction } from '@reduxjs/toolkit'
 import { call, delay, put, takeLatest } from 'redux-saga/effects'
 import { userActions } from '../reducers/userReducer.ts';
-import { joinApi, loginApi } from '../api/userApi.ts'
+import {joinApi, loginApi, logoutApi} from '../api/userApi.ts'
 
 interface UserJoinType{ // 액션객체, 스키마
     type: string; // 액션객체는 type 이란 필드를 필수로 갖는다.
@@ -60,14 +60,27 @@ function* login(login: UserLoginType){
     try{
         const response : UserLoginSuccessType = yield loginApi(login.payload)
         yield put(userActions.loginSuccess(response))
+        location.href = "/";
     }catch(error){
         yield put(userActions.loginFailure(error))
     }
 }
 
 export function* watchLogin(){
-    alert("2.5");
     yield takeLatest(userActions.loginRequest, login)
+}
+
+function* logout(){
+    try{
+        const response : UserLoginSuccessType = yield logoutApi()
+        yield put(userActions.logoutSuccess(response))
+    }catch(error){
+        yield put(userActions.loginFailure(error));
+    }
+}
+
+export function* watchLogout(){
+    yield takeLatest(userActions.logoutRequest, logout)
 }
 
 // generate 함수는 실체가 없는 함수이다.

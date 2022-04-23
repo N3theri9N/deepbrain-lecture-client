@@ -41,7 +41,6 @@ const userSlice = createSlice({
             state.loading = false;
         },
         loginRequest(state: UserState, payload){
-            alert('진행 2: 리듀서 내부 ')
             // 액션 실행시 넣는 payload 로 api 호출
             state.loading = true;
         },
@@ -53,6 +52,14 @@ const userSlice = createSlice({
         loginFailure(state: UserState, {payload}){
             state.data = payload;
             state.loading = false;
+        },
+        logoutRequest(state: UserState, payload){
+            state.loading = false;
+        },
+        logoutSuccess(state: UserState){
+            state.loading = true;
+            localStorage.clear();
+            window.location.href = "/";
         }
     }
 })

@@ -10,22 +10,21 @@ export default function Nav(){
     const [userUrls, setUserUrls] = useState([]);
     const [userSubTitle, setUserSubTitle] = useState([]);
 
-  const basicUrls = ["/basic/counter","/basic/calc","/basic/bmi"]
-  const basicSubTitle = ["카운터","계산기","BMI"]
-
+    const basicUrls = ["/basic/counter","/basic/calc","/basic/bmi"]
+    const basicSubTitle = ["카운터","계산기","BMI"]
 
     useEffect(() => {
-            const loginUser = localStorage.getItem("loginuser");
-            if( loginUser === null){
-                setUserUrls(["/user/join","/user/login"]);
-                setUserSubTitle(["회원가입","로그인"])
-            } else {
-                setUserUrls(["/user/logout","/user/profile","/user/modifyUser","/user/withdrawUser","user/getUsers"]);
-                setUserSubTitle(["로그아웃","프로필","회원수정","회원탈퇴","회원목록"]);
-            }
-        });
+        const loginUser = localStorage.getItem("loginUser");
+        if( loginUser === null){
+            setUserUrls(["/user/join","/user/login"]);
+            setUserSubTitle(["회원가입","로그인"])
+        } else {
+            setUserUrls(["/user/logout","/user/profile","/user/modifyUser","/user/withdrawUser","user/getUsers"]);
+            setUserSubTitle(["로그아웃","프로필","회원수정","회원탈퇴","회원목록"]);
+        }
+    }, []); // useEffect 의 두번째 인자를 선언하지 않으면 무한루프 발생
 
-  return (
+    return (
       <table className={tableStyles.table}>
         <tbody>
         <tr>
@@ -36,7 +35,7 @@ export default function Nav(){
         </tr>
         </tbody>
       </table>
-  );
+    );
 }
 const SubMenu = (props) => {
   const [anchorEl, setAnchorEl] = useState(null);
