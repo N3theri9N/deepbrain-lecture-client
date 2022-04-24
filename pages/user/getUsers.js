@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import tableStyles from '../common/styles/table.module.css'
 import Link from 'next/link'
 
@@ -7,33 +7,50 @@ export default function GetUsers() {
 
     const columns = ["사용자ID", "이름", "이메일", "전화번호", "생년월일", "주소"];
     const [data, setData] = useState([])
-    
+
+    useEffect(() => {
+        axios.get("http://localhost:5000/user/getUsers").then(res => {
+            setData(res.data.user);
+        }).catch(err => {
+            alert("ERROR")
+        });
+    }, []);
+
     return (
         <>
             <table className={tableStyles.table}>
                 <thead>
-                    <tr>
-                        <th><b>사용자ID</b></th>
-                        <th><b>이메일</b></th>
-                        <th><b>이름</b></th>
-                        <th><b>전화번호</b></th>
-                        <th><b>생년월일</b></th>
-                        <th><b>주소</b></th>
-                    </tr>
+                <tr>
+                    <th colSpan={6}>
+                        <h1>회원 리스트</h1>
+                    </th>
+                </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>{profile.userid}</td>
-                        <td>{profile.email}</td>
-                        <td>{profile.name}</td>
-                        <td>{profile.phone}</td>
-                        <td>{profile.birth}</td>
-                        <td>{profile.address}</td>
+                <tr>
+                    {columns.map((column, index) => { // index 는 반드시 넣어야한다.
+                        return <td key={index}>{column}</td>
+                    })}
+                </tr>
+                {data.length === 0
+                    ? <tr>
+                        <td colSpan={6}>데이터가 없습니다.</td>
                     </tr>
+                    : data.map((user) => {
+                        return <tr key={user.userid}>
+                            <td>{user.userid}</td>
+                            <td>{user.name}</td>
+                            <td>{user.email}</td>
+                            <td>{user.phone}</td>
+                            <td>{user.birth}</td>
+                            <td>{user.address}</td>
+                        </tr>
+                    })
+                }
                 </tbody>
             </table>
         </>
 
-
+// && 는 if 문이나 다름없음.
     )
 }

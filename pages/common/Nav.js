@@ -19,7 +19,7 @@ export default function Nav(){
             setUserUrls(["/user/join","/user/login"]);
             setUserSubTitle(["회원가입","로그인"])
         } else {
-            setUserUrls(["/user/logout","/user/profile","/user/modifyUser","/user/withdrawUser","user/getUsers"]);
+            setUserUrls(["/user/logout","/user/profile","/user/modifyUser","/user/withdrawUser","/user/getUsers"]);
             setUserSubTitle(["로그아웃","프로필","회원수정","회원탈퇴","회원목록"]);
         }
     }, []); // useEffect 의 두번째 인자를 선언하지 않으면 무한루프 발생

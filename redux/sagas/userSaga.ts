@@ -74,8 +74,21 @@ function* logout(){
     try{
         const response : UserLoginSuccessType = yield logoutApi()
         yield put(userActions.logoutSuccess(response))
-    }catch(error){
+    }catch( error ){
         yield put(userActions.loginFailure(error));
+    }
+}
+
+export function* watchDelUser(){
+    yield takeLatest(userActions.logoutRequest, logout)
+}
+
+function* delUser(){
+    try{
+        const response : UserLoginSuccessType = yield delUserApi()
+        yield put(userActions.delUserSuccess(response))
+    }catch(error){
+        yield put(userActions.delUserFailure(error));
     }
 }
 

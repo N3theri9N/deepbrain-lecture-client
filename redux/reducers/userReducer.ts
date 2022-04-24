@@ -60,7 +60,15 @@ const userSlice = createSlice({
             state.loading = true;
             localStorage.clear();
             window.location.href = "/";
-        }
+        },
+        delUserRequest(state: UserState, payload){
+            state.loading = false;
+        },
+        delUserSuccess(state: UserState){
+            state.loading = true;
+            localStorage.clear();
+            window.location.href = "/";
+        },
     }
 })
 const { reducer, actions } = userSlice // 아래의 reducer 로 버블링
